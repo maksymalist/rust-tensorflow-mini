@@ -2,9 +2,9 @@ use ndarray::prelude::*;
 use rand::Rng;
 
 pub struct LayerDense {
-    pub weights: Array2<f32>,
-    pub biases: Array1<f32>,
-    pub output: Array2<f32>,
+    pub weights: Array2<f64>,
+    pub biases: Array1<f64>,
+    pub output: Array2<f64>,
 }
 
 
@@ -27,7 +27,7 @@ impl LayerDense {
                                                     ]
              */
 
-            weights: Array2::from_shape_fn((n_neurons as usize, n_inputs as usize), |_| 0.10 * rng.gen_range(-1.0..1.0)),
+            weights: Array2::from_shape_fn((n_neurons as usize, n_inputs as usize), |_| 0.10 * rng.gen_range(-1.0..1.0) as f64),
 
             // vector of biases for each neuron
             biases: Array1::from(vec![0.3; n_neurons as usize]),
@@ -35,7 +35,10 @@ impl LayerDense {
         }
     }
 
-    pub fn forward(&mut self, inputs: Array2<f32>) {
+    pub fn forward(&mut self, inputs: Array2<f64>) {
+        println!("\n\n\n weights 1: {:?} \n\n\n", self.weights);
+        println!("\n\n\n inputs 1: {:?} \n\n\n", inputs);
         self.output = inputs.dot(&self.weights.t()) + &self.biases;
+        println!("\n\n\n output 1: {:?} \n\n\n", self.output);
     }
 }

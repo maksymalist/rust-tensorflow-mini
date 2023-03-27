@@ -1,9 +1,9 @@
 #![allow(unused)] // For beginning only.
 
-use crate::{prelude::*, utils::ActivationReLU};
+use crate::prelude::*;
 use std::fs::read_dir;
 use ndarray::prelude::*;
-use utils::{LayerDense, spiral_data, scatter_plot};
+use utils::{LayerDense, spiral_data, scatter_plot, NeuralNetwork, Activation, Loss, ActivationSoftmax, ActivationReLU};
 
 mod error;
 mod prelude;
@@ -17,22 +17,25 @@ fn main() -> Result<()> {
 		[-1.5, 2.7, 3.3, -0.8]
 	];
 
-	let mut layer1 = LayerDense::new(4, 5);
-	println!("weights: {}", layer1.weights);
-	let mut activation1 = ActivationReLU::new();
-	layer1.forward(x);
-	println!("output 1: {}", layer1.output);
-	activation1.forward(layer1.output);
-	// output of layer 1 has to be the same as the input of layer 2
-	//let mut layer2 = LayerDense::new(5, 6);
-
-	//layer2.forward(layer1.output);
-
-	println!("output ac: {}", activation1.output); 
-
 	let data = spiral_data(100, 3);
 	let a = data.0;
 	let b = data.1;
+
+	println!("a: {} \n\n\n", a);
+
+	let mut nn = NeuralNetwork::new(
+		vec![
+			(LayerDense::new(2, 3), Activation::ReLU),
+			(LayerDense::new(3, 3), Activation::Softmax),
+		],
+		1.2,
+	);
+
+	let out = nn.train(a.clone());
+	println!("output: {}", out);
+
+
+	// plot the data
 
     let mut v: Vec<Vec<f64>> = a
         .axis_iter(Axis(0))

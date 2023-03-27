@@ -10,10 +10,6 @@ pub fn scatter_plot(random_points: Vec<Vec<f64>>) -> Result<(), Box<dyn std::err
 
     root.fill(&WHITE)?;
 
-    let sd = 0.13;
-
-    //println!("random_points: {:?}", random_points);
-
     let areas = root.split_by_breakpoints([944], [80]);
 
     let mut scatter_ctx = ChartBuilder::on(&areas[2])
