@@ -48,7 +48,7 @@ impl NeuralNetwork {
         }
 
         let mut loss = Loss::new();
-        loss.calculate();
+        loss.calculate(arr1(&[1., 0., 0.]), output.clone());
         output
     }
 }

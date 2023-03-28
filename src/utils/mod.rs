@@ -17,8 +17,8 @@ mod softmax;
 pub use softmax::*;
 
 // loss function
-mod cc_entropy;
-pub use cc_entropy::*;
+mod loss;
+pub use loss::*;
 
 // data
 mod data;
