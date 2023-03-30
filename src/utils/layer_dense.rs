@@ -36,9 +36,6 @@ impl LayerDense {
     }
 
     pub fn forward(&mut self, inputs: Array2<f64>) {
-        println!("\n\n\n weights 1: {:?} \n\n\n", self.weights);
-        println!("\n\n\n inputs 1: {:?} \n\n\n", inputs);
         self.output = inputs.dot(&self.weights.t()) + &self.biases;
-        println!("\n\n\n output 1: {:?} \n\n\n", self.output);
     }
 }

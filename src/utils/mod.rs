@@ -20,6 +20,10 @@ pub use softmax::*;
 mod loss;
 pub use loss::*;
 
+// categorical cross entropy
+mod categorical_cross_entropy;
+pub use categorical_cross_entropy::*;
+
 // data
 mod data;
 pub use data::*;

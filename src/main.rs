@@ -3,7 +3,7 @@
 use crate::prelude::*;
 use std::fs::read_dir;
 use ndarray::prelude::*;
-use utils::{LayerDense, spiral_data, scatter_plot, NeuralNetwork, Activation, Loss, ActivationSoftmax, ActivationReLU};
+use utils::{LayerDense, spiral_data, scatter_plot, NeuralNetwork, Activation, LossFunction, ActivationSoftmax, ActivationReLU, CategoricalCrossEntropy};
 
 mod error;
 mod prelude;
@@ -21,8 +21,6 @@ fn main() -> Result<()> {
 	let a = data.0;
 	let b = data.1;
 
-	println!("a: {} \n\n\n", a);
-
 	let mut nn = NeuralNetwork::new(
 		vec![
 			(LayerDense::new(2, 3), Activation::ReLU),
@@ -31,7 +29,7 @@ fn main() -> Result<()> {
 		1.2,
 	);
 
-	let out = nn.train(a.clone());
+	let out = nn.train(a.clone(), b.clone().into_shape([1, 300]).unwrap());
 	println!("output: {}", out);
 
 

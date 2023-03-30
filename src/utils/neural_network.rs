@@ -1,5 +1,5 @@
 use ndarray::prelude::*;
-use crate::{ActivationReLU, LayerDense, ActivationSoftmax, Loss};
+use crate::{ActivationReLU, LayerDense, ActivationSoftmax, CategoricalCrossEntropy, LossFunction};
 
 pub struct  NeuralNetwork {
     layers: Vec<(LayerDense, Activation)>,
@@ -30,7 +30,7 @@ impl NeuralNetwork {
         }
     }
 
-    pub fn train(&mut self, inputs: Array2<f64>) -> Array2<f64> {
+    pub fn train(&mut self, inputs: Array2<f64>, y: Array2<f64>) -> Array2<f64> {
         let mut output = inputs;
         for (layer, activiation) in &mut self.layers {
             layer.forward(output);
@@ -47,8 +47,9 @@ impl NeuralNetwork {
             }
         }
 
-        let mut loss = Loss::new();
-        loss.calculate(arr1(&[1., 0., 0.]), output.clone());
+        let result = CategoricalCrossEntropy::calculate(output.clone(), y.clone());
+        println!("loss: {}", result.0);
+        println!("accuracy: {}", result.1);
         output
     }
 }
