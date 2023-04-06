@@ -70,8 +70,8 @@ fn main() -> Result<()> {
 			// println!("DBIASES 2: {:?}", dense2.dbiases);
 
 			// update weights
-			optimzer.update_params(&mut dense1);
-			optimzer.update_params(&mut dense2);
+			optimzer.update_params(&mut dense1, epoch);
+			optimzer.update_params(&mut dense2, epoch);
 		}
 
 

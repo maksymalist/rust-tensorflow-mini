@@ -9,7 +9,7 @@ impl OptimizerSDG {
         Self { learning_rate }
     }
 
-    pub fn update_params(&self, layer: &mut LayerDense) {
+    pub fn update_params(&self, layer: &mut LayerDense, epoch: usize) {
 
         // println!(" weights shape: {:?}, {:?}", layer.dweights.shape(), layer.weights.shape());
         // println!(" biases shape: {:?}, {:?}", layer.dbiases.shape(), layer.biases.shape());
@@ -17,12 +17,12 @@ impl OptimizerSDG {
         let new_weights  = layer.weights.clone() + layer.dweights.mapv(|x| x * -self.learning_rate).t();
         let new_biases = layer.biases.clone() + layer.dbiases.mapv(|x| x * -self.learning_rate);
 
-        println!(" new weights shape: {:?}, {:?}", new_weights, layer.weights);
+        println!(" new weights shape: {:?} \n\n", new_weights);
 
         // function that checks if one of the elements in the array is NaN
         for i in new_weights.iter() {
             if i.is_nan() {
-                panic!("NaN in weights");
+                panic!("NaN in weights at epoch: {}", epoch);
             }
         }
 
