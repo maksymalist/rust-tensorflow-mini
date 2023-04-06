@@ -2,6 +2,7 @@ use crate::prelude::*;
 
 //neural network
 mod neural_network;
+mod optimizer_SDG;
 pub use neural_network::*;
 
 // layer dense
@@ -23,6 +24,12 @@ pub use loss::*;
 // categorical cross entropy
 mod categorical_cross_entropy;
 pub use categorical_cross_entropy::*;
+
+// optimizer
+
+// stochastic gradient descent
+mod optimizer_sdg;
+pub use optimizer_sdg::*;
 
 // data
 mod data;

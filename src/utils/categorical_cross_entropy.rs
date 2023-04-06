@@ -100,4 +100,46 @@ impl LossFunction for CategoricalCrossEntropy {
         (average_loss, accuracy)
 
     }
+
+    // dvalues: Array2<f64> - the output of the softmax activation function
+    // y_true: Array2<f64> - the true labels ither one-hot encoded or not |  [0,1,2,...] or [[1,0,0], [0,1,0], [0,0,1], ...]
+    fn backward(dvalues: Array2<f64>, mut y_true: Array2<f64>) -> Array2<f64> {
+        // Number of samples
+        let samples = dvalues.shape()[0];
+    
+        // If labels are one-hot encoded, turn them into discrete values
+        let y_true = if y_true.shape()[0] > 1 {
+            y_true.map_axis(Axis(1), |row| {
+                let mut max = 0.0;
+                let mut max_idx = 0;
+                for (i, &val) in row.iter().enumerate() {
+                    if val > max {
+                        max = val;
+                        max_idx = i;
+                    }
+                }
+                max_idx as f64
+            })
+        } else {
+            Array1::from(y_true.to_owned().into_raw_vec())
+        };
+    
+        // Copy so we can safely modify
+        let mut dinputs = dvalues.to_owned();
+
+        // Calculate gradient
+        for (i, j) in (0..samples).zip(y_true.into_iter()) {
+            dinputs[[i, j as usize]] -= 1.0;
+        }
+
+        // Gradient Calculation Explanation
+        /*  
+            1. Zip a new array of size (1, samples) with the y_true array
+            2. Index into the dinputs array with the index of the y_true array (which is the index of the target label)
+            3. Subtract 1 from the value at the index of the dinputs array
+            - EX: If the target label is one, and the model's prediction is 0.9, then the gradient will be -0.1
+        */
+
+        dinputs.clone() / samples as f64
+    }
 }
