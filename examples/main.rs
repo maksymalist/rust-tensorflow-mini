@@ -83,8 +83,8 @@ fn main() {
         model.l1.backward(model.a1.dinputs.clone());
 
         // update weights and biases
-        optmizer.update_params(&mut model.l1, epoch);
-        optmizer.update_params(&mut model.l2, epoch);
+        optmizer.update_params(&mut model.l1);
+        optmizer.update_params(&mut model.l2);
         // print loss and accuracy
         if epoch % 100 == 0 {
             println!("EPOCH: {}", epoch);

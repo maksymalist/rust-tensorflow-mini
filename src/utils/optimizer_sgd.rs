@@ -9,7 +9,7 @@ impl OptimizerSGD {
         Self { learning_rate }
     }
 
-    pub fn update_params(&self, layer: &mut LayerDense, epoch: usize) {
+    pub fn update_params(&self, layer: &mut LayerDense) {
         let weight_adj = layer.dweights.mapv(|x| x * -self.learning_rate);
         let bias_adj = layer.dbiases.mapv(|x| x * -self.learning_rate);
 
