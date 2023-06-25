@@ -2,7 +2,6 @@ use crate::prelude::*;
 
 //neural network
 mod neural_network;
-mod optimizer_SDG;
 pub use neural_network::*;
 
 // layer dense
@@ -31,6 +30,10 @@ pub use categorical_cross_entropy::*;
 mod optimizer_sdg;
 pub use optimizer_sdg::*;
 
+// adam
+mod optimizer_adam;
+pub use optimizer_adam::*;
+
 // data
 mod data;
 pub use data::*;
@@ -38,3 +41,4 @@ pub use data::*;
 // visualize
 mod visualize;
 pub use visualize::*;
+

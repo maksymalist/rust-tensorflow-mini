@@ -11,15 +11,13 @@ pub struct LayerDense {
     pub dbiases: Array1<f64>,
 }
 
-
 impl LayerDense {
-
-    // this function initializes the weights (from -1.0 to 1) and biases (starting at 2.0) 
+    // this function initializes the weights (from -1.0 to 1) and biases (starting at 2.0)
     pub fn new(n_inputs: i32, n_neurons: i32) -> Self {
         let mut rng = rand::thread_rng();
 
-        Self { 
-            // matrix of weights 
+        Self {
+            // matrix of weights
             /*
             weights: array![                        ]
                 [0.2, 0.8, -0.5, 1.0], <-- 4 weights|
@@ -30,9 +28,10 @@ impl LayerDense {
                 [-0.26, -0.27, 0.17, 0.87]          |
                                                     ]
              */
-
             inputs: Array2::zeros((0, n_inputs as usize)),
-            weights: Array2::from_shape_fn((n_neurons as usize, n_inputs as usize), |_| 0.10 * rng.gen_range(-1.0..1.0) as f64),
+            weights: Array2::from_shape_fn((n_neurons as usize, n_inputs as usize), |_| {
+                0.01 * rng.gen_range(-1.0..1.0) as f64
+            }),
 
             // vector of biases for each neuron
             biases: Array1::from(vec![0.3; n_neurons as usize]),
@@ -49,8 +48,9 @@ impl LayerDense {
     }
 
     pub fn backward(&mut self, dvalues: Array2<f64>) {
-        self.dweights = self.inputs.t().dot(&self.output);
+        self.dweights = self.inputs.t().dot(&dvalues);
         self.dbiases = dvalues.sum_axis(Axis(0));
         self.dinputs = dvalues.dot(&self.weights);
     }
 }
+
