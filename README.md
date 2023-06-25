@@ -20,10 +20,10 @@ cargo run
 
 # TODO
 
-- [ ] Fix NaN bug
+- [x] Fix NaN bug
 - [ ] Add more features
-- [ ] Add examples
-- [ ] Add tests
+- [x] Add examples
+- [x] Add tests
 - [ ] Add documentation
 - [ ] Add benchmarks
 - [ ] Add more visualization tools
