@@ -1,7 +1,7 @@
 use ndarray::prelude::*;
 use std::f64::consts::E;
 
-use super::ActivationTrait;
+use super::neural_network::ActivationTrait;
 
 pub struct ActivationSoftmax {
     pub output: Array2<f64>,

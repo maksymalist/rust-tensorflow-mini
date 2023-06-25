@@ -4,8 +4,8 @@ use crate::prelude::*;
 use ndarray::prelude::*;
 use std::fs::read_dir;
 use utils::{
-    scatter_plot, spiral_data, Activation, ActivationReLU, ActivationSoftmax, ActivationTrait,
-    CategoricalCrossEntropy, LayerDense, LossFunction, NeuralNetwork, OptimizerAdam, OptimizerSDG,
+    scatter_plot, spiral_data, ActivationReLU, ActivationSoftmax, ActivationTrait,
+    CategoricalCrossEntropy, LayerDense, LossFunction, OptimizerAdam, OptimizerSGD,
 };
 
 mod error;
@@ -23,7 +23,7 @@ fn main() -> Result<()> {
         let mut dense2 = LayerDense::new(64, 3);
         let mut softmax = ActivationSoftmax::new();
 
-        let optimzer = OptimizerSDG::new(0.001);
+        let optimzer = OptimizerSGD::new(0.001);
         const EPOCHS: usize = 100001;
 
         let mut best_acc: f64 = 0.0;

@@ -27,8 +27,8 @@ pub use categorical_cross_entropy::*;
 // optimizer
 
 // stochastic gradient descent
-mod optimizer_sdg;
-pub use optimizer_sdg::*;
+mod optimizer_sgd;
+pub use optimizer_sgd::*;
 
 // adam
 mod optimizer_adam;

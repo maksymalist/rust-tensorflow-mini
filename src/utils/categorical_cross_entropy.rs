@@ -1,15 +1,10 @@
 use ndarray::prelude::*;
-use ndarray::Zip;
-use std::any::Any;
-use std::f64::consts::E;
-use crate::utils::LossFunction;
+use super::LossFunction;
 
 pub struct CategoricalCrossEntropy;
 
 impl LossFunction for CategoricalCrossEntropy {
-
     fn calculate(y_pred: Array2<f64>, y_true: Array2<f64>) -> (f64, f64) {
-
         let samples = y_true.shape()[0];
         let y_pred_clipped = y_pred.mapv(|x| {
             if x > 1.0 - 1e-7 {
@@ -23,14 +18,14 @@ impl LossFunction for CategoricalCrossEntropy {
 
         let mut average_loss = 0.0;
         if y_true.shape()[0] == 1 {
-           let mut vals: Vec<f64> = Vec::new();
-           for (targ_idx, distribution) in y_true.iter().zip(y_pred_clipped.outer_iter()) {
+            let mut vals: Vec<f64> = Vec::new();
+            for (targ_idx, distribution) in y_true.iter().zip(y_pred_clipped.outer_iter()) {
                 let i = *targ_idx as usize;
                 let l: f64 = distribution[i];
                 vals.push(-l.ln());
-           };
+            }
 
-           average_loss = Array1::from(vals).mean().unwrap_or(3.0);
+            average_loss = Array1::from(vals).mean().unwrap_or(3.0);
         }
         // this is for one-hot encoded labels
         else {
@@ -60,7 +55,6 @@ impl LossFunction for CategoricalCrossEntropy {
         let mut accuracy: f64 = 0.0;
 
         if y_true.shape()[0] == 1 {
-
             let mut correct = Vec::new();
 
             for (pred, targ) in predictions.iter().zip(y_true.iter()) {
@@ -83,7 +77,7 @@ impl LossFunction for CategoricalCrossEntropy {
                 }
                 max_idx as f64
             });
-            
+
             let mut correct = Vec::new();
 
             for (pred, targ) in predictions.iter().zip(targets.iter()) {
@@ -98,7 +92,6 @@ impl LossFunction for CategoricalCrossEntropy {
         }
 
         (average_loss, accuracy)
-
     }
 
     // dvalues: Array2<f64> - the output of the softmax activation function
@@ -106,7 +99,7 @@ impl LossFunction for CategoricalCrossEntropy {
     fn backward(dvalues: Array2<f64>, mut y_true: Array2<f64>) -> Array2<f64> {
         // Number of samples
         let samples = dvalues.shape()[0];
-    
+
         // If labels are one-hot encoded, turn them into discrete values
         let y_true = if y_true.shape()[0] > 1 {
             y_true.map_axis(Axis(1), |row| {
@@ -123,7 +116,7 @@ impl LossFunction for CategoricalCrossEntropy {
         } else {
             Array1::from(y_true.to_owned().into_raw_vec())
         };
-    
+
         // Copy so we can safely modify
         let mut dinputs = dvalues.to_owned();
 
@@ -133,7 +126,7 @@ impl LossFunction for CategoricalCrossEntropy {
         }
 
         // Gradient Calculation Explanation
-        /*  
+        /*
             1. Zip a new array of size (1, samples) with the y_true array
             2. Index into the dinputs array with the index of the y_true array (which is the index of the target label)
             3. Subtract 1 from the value at the index of the dinputs array
