@@ -1,12 +1,14 @@
 use rust_tensorflow_mini::NeuralNetworkTrait;
 use ndarray::prelude::*;
 use rust_tensorflow_mini::{LayerDense, ActivationReLU, ActivationSoftmax, ActivationTrait, spiral_data, OptimizerSGD, CategoricalCrossEntropy, LossFunction};
+use serde::{Serialize, Deserialize};
 
 fn main() {
 
     // STEP 1: define a model
 
     // start by defining a model with layers and activation functions
+    #[derive(Serialize, Deserialize)] // <-- this is needed for saving and loading the model otherwise it will throw an error
     struct MyModel {
         l1: LayerDense,
         a1: ActivationReLU,
@@ -16,6 +18,7 @@ fn main() {
 
     // using the neural network trait, we can define the forward pass
     impl NeuralNetworkTrait<Array2<f64>> for MyModel {
+        type Model = MyModel;
         fn new (input_size: i32, output_size: i32) -> Self {
 
             let l1 = LayerDense::new(input_size, 64);

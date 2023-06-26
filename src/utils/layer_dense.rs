@@ -1,6 +1,8 @@
 use ndarray::prelude::*;
 use rand::Rng;
+use serde::{Serialize, Deserialize};
 
+#[derive(Serialize, Deserialize)]
 pub struct LayerDense {
     pub inputs: Array2<f64>,
     pub weights: Array2<f64>,

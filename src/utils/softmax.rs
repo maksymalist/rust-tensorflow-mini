@@ -1,8 +1,9 @@
 use ndarray::prelude::*;
-use std::f64::consts::E;
+use serde::{Serialize, Deserialize};
 
 use super::neural_network::ActivationTrait;
 
+#[derive(Serialize, Deserialize)]
 pub struct ActivationSoftmax {
     pub output: Array2<f64>,
     pub dinputs: Array2<f64>
@@ -26,8 +27,8 @@ impl ActivationTrait for ActivationSoftmax {
             }
             let mut dvalues_temp = Array2::zeros((1, single_dvalues.len()));
             dvalues_temp.assign(&single_dvalues);
-            let mut temp1 = dvalues_temp.dot(&jacobian_matrix);
-            let mut temp2 = temp1.dot(&single_output.t());
+            let temp1 = dvalues_temp.dot(&jacobian_matrix);
+            let temp2 = temp1.dot(&single_output.t());
             dinputs.slice_mut(s![i, ..]).assign(&temp2);
         }
         self.dinputs = dinputs.clone();

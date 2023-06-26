@@ -1,7 +1,9 @@
 use ndarray::prelude::*;
+use serde::{Serialize, Deserialize};
 
 use super::ActivationTrait;
 
+#[derive(Serialize, Deserialize)]
 pub struct ActivationReLU {
     pub inputs: Array2<f64>,
     pub output: Array2<f64>,

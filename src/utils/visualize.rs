@@ -1,9 +1,5 @@
 use plotters::prelude::*;
 
-use rand::SeedableRng;
-use rand_distr::{Distribution, Normal};
-use rand_xorshift::XorShiftRng;
-
 const OUT_FILE_NAME: &'static str = "assets/dist.png";
 pub fn scatter_plot(random_points: Vec<Vec<f64>>) -> Result<(), Box<dyn std::error::Error>> {
     let root = BitMapBackend::new(OUT_FILE_NAME, (1024, 768)).into_drawing_area();

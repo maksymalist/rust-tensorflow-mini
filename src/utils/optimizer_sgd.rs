@@ -1,5 +1,5 @@
 use crate::utils::layer_dense::LayerDense;
-use ndarray::prelude::*;
+
 pub struct OptimizerSGD {
     pub learning_rate: f64,
 }
