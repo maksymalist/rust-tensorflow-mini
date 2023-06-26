@@ -17,15 +17,23 @@ impl LossFunction for CategoricalCrossEntropy {
         });
 
         let mut average_loss = 0.0;
+
         if y_true.shape()[0] == 1 {
             let mut vals: Vec<f64> = Vec::new();
-            for (targ_idx, distribution) in y_true.iter().zip(y_pred_clipped.outer_iter()) {
-                let i = *targ_idx as usize;
-                let l: f64 = distribution[i];
-                vals.push(-l.ln());
+            for (target_idx, distribution) in y_true.iter().zip(y_pred_clipped.outer_iter()) {
+                vals.push(-distribution[*target_idx as usize].ln());   
             }
 
+
             average_loss = Array1::from(vals).mean().unwrap_or(3.0); 
+
+            // if average_loss > 2.0 {
+            //     println!("y_true: {:?}", y_true);
+            //     println!("y_pred: {:?}", y_pred_clipped);
+            //     println!("average_loss: {:?}", average_loss); 
+
+            //     panic!("average_loss is too high");
+            // }
         }
         // this is for one-hot encoded labels
         else {
@@ -39,7 +47,6 @@ impl LossFunction for CategoricalCrossEntropy {
             average_loss = Array1::from(vals).mean().unwrap_or(3.0);
         }
 
-        // TODO - implement accuracy calculation
         let predictions = y_pred_clipped.map_axis(Axis(1), |row| {
             let mut max = 0.0;
             let mut max_idx = 0;

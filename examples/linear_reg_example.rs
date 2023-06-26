@@ -46,11 +46,8 @@ fn main() {
     // STEP 2: define the dataset
 
     let data = spiral_data(100, 3);
-    let x = data.0;
+    let x = data.0.clone();
     let y = data.1.into_shape([1, 300]).unwrap();
-
-    println!("{:?}", x.shape());
-    println!("{:?}", y.shape());
 
     // STEP 3: Training the model
     
@@ -61,13 +58,14 @@ fn main() {
 
     // #3.2 Initialize the model
 
-    let mut model = MyModel::new(2, 3);
+    let mut model = MyModel::new(2, 4);
 
     // #3.3 Train the model
 
     let optmizer = OptimizerSGD::new(LEARNING_RATE);
     
     for epoch in 0..EPOCHS {
+
         // forward pass
         let output = model.forward(x.clone());
         // calculate stats //TODO make a seperate function for this and rename calculate to forward
@@ -87,11 +85,14 @@ fn main() {
         optmizer.update_params(&mut model.l2);
         // print loss and accuracy
         if epoch % 100 == 0 {
-            println!("EPOCH: {}", epoch);
-            println!("LOSS: {:?}", loss);
-            println!("ACCURACY: {}", acc);
-            println!("\n")
+            println!("#############");
+            println!("   EPOCH: {} ", epoch);
+            println!("#############");
+            println!("Loss: {}", loss);
+            println!("Accuracy: {}", acc);
+            println!("\n");
         }
+            
     }
 
 }

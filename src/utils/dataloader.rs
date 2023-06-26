@@ -21,7 +21,8 @@ impl Dataloader {
 
         while batch_idx < input.shape()[0] / batch_size as usize {
             let x_batch = input.slice(s![batch_idx * batch_size as usize..(batch_idx + 1) * batch_size as usize, ..]);
-            let y_true_batch = y_true.slice(s![batch_idx * batch_size as usize..(batch_idx + 1) * batch_size as usize, ..]);
+            // y_true size is [1, 300]
+            let y_true_batch = y_true.slice(s![.., batch_idx * batch_size as usize..(batch_idx + 1) * batch_size as usize]);
             
             batches.push((x_batch.to_owned(), y_true_batch.to_owned()));
             batch_idx += 1;
