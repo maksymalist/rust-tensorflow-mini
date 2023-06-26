@@ -54,14 +54,6 @@ fn main() {
 
     let dataloader = Dataloader::new(x.clone(), y.clone(), 300);
 
-    println!("{:?} {:?} {:?}", dataloader.batches.len(), dataloader.batches[0].0.shape(), dataloader.batches[0].1.shape());
-
-    println!("{:?}", x.shape());
-    println!("{:?}", y.shape());
-
-
-    println!("{:?}", dataloader.batches.len());
-
     // STEP 3: Training the model
     
     // #3.1 Hyperparameters
@@ -79,8 +71,6 @@ fn main() {
 
     let params = model.params();
     println!("{:?}", params);
-
-    panic!("Model saved");
 
     // #3.3 Train the model
 
