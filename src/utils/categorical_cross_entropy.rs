@@ -25,7 +25,7 @@ impl LossFunction for CategoricalCrossEntropy {
                 vals.push(-l.ln());
             }
 
-            average_loss = Array1::from(vals).mean().unwrap_or(3.0);
+            average_loss = Array1::from(vals).mean().unwrap_or(3.0); 
         }
         // this is for one-hot encoded labels
         else {
