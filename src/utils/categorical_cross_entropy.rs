@@ -5,7 +5,7 @@ pub struct CategoricalCrossEntropy;
 
 impl LossFunction for CategoricalCrossEntropy {
     fn calculate(y_pred: Array2<f64>, y_true: Array2<f64>) -> (f64, f64) {
-        let samples = y_true.shape()[0];
+
         let y_pred_clipped = y_pred.mapv(|x| {
             if x > 1.0 - 1e-7 {
                 1.0 - 1e-7
