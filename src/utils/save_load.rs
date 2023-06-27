@@ -24,6 +24,6 @@ where
     let mut buffer = String::new();
     file.read_to_string(&mut buffer)?;
 
-    let deserialized: T = serde_json::from_str(Box::leak(buffer.into_boxed_str())).unwrap();
+    let deserialized: T = serde_json::from_str(Box::leak(buffer.into_boxed_str())).expect("The weights and biases are incompatible with the model");
     Ok(deserialized)
 }
