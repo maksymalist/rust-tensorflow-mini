@@ -15,7 +15,7 @@ cargo build
 ## Run
 
 ```
-cargo run
+cargo run --release --example linear_reg_example
 ```
 
 # TODO
